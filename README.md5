@@ -1,0 +1,22 @@
+程序的开发环境：
+    Django2.0，Pycharm2018
+
+程序的实现的功能：
+    用户注册，登录，浏览文章(评论、点赞、踩)，发表文章，编辑文章
+
+程序的启动方式：
+    打开电脑的pycharm，启动本项目，点击 http://127.0.0.1:8000/ ，即可到浏览器中查看网页。
+    根据网页的标签功能，单击进而实现项目的各项功能。
+
+登录用户信息：
+    浏览项目的首页，右上角有登录功能；成功登录可进行项目的所有功能操作。
+
+备注：
+    启动项目后，需进行数据库创建、数据迁移和进行超级用户注册。
+    数据库创建：
+        create database cnblog;
+    数据迁移命令：
+        python manage.py makemigrations
+        python manage.py migrate
+    超级用户注册：
+        cmd命令进入本项目，执行"python manage.py createsuperuser"

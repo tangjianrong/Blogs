@@ -1,0 +1,69 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#div_digg {
+    width: 140px;
+    right: 390px;
+    float: right;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px 5px 5px 5px !important;
+    box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+}
+.diggit {
+    float: left;
+    width: 46px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 2px;
+    padding-top: 5px;
+}
+.buryit {
+    float: right;
+    margin-left: 20px;
+    width: 46px;
+    height: 52px;
+    cursor: pointer;
+    margin-top: 2px;
+    padding-top: 5px;
+}
+.burynum {
+    font-size: 14px;
+    font-family: Verdana;
+}
+.clear {
+    clear: both;
+}
+.diggword {
+    margin-top: 10px;
+    margin-left: 0;
+    font-size: 12px;
+    color: gray;
+    text-align: center;
+}
+blockquote {
+    display: block;
+    height: 40px;
+    border: 1px solid;
+    width: 450px;
+    font-style: normal;
+    line-height: 100%;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.btn{
+    margin-right: 200px;
+}
+.comment_text{
+    margin-top: 10px;
+}
+.reply_btn{
+    cursor: pointer;
+    color:blue;
+}
+.comment_item{
+    margin-left: 15px;
+}
+
+

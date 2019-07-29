@@ -1,0 +1,63 @@
+{% extends 'bakend_base.html' %}
+{% block content %}
+    {% csrf_token %}
+    <div class="article_list small">
+        <table class="table table-hover table-striped">
+            <thead>
+            <th>标题</th>
+            <th>评论数</th>
+            <th>点赞数</th>
+            <th>操作</th>
+            <th>操作</th>
+            </thead>
+            <tbody>
+            {% for article in article_list %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.comment_count }}</td>
+                    <td>{{ article.up_count }}</td>
+                    <td><a href="/{{ article.pk }}/article_edit/" class="edit" >编辑</a></td>
+                    <td><a article_id="{{ article.pk }}" class="del">删除</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        //删除文章
+        $(".del").click(function () {
+            var username = '{{ request.user.username }}';
+            var article_id = $(this).attr('article_id');
+            $.ajax({
+                url: '/article_del/',
+                type: 'post',
+                data: {
+                    'csrfmiddlewaretoken': $("[name='csrfmiddlewaretoken']").val(),
+                    'article_id': article_id,
+                    'username': username
+                },
+                success: function (data) {
+                    location.href = '/' + username + '/backend/'
+                }
+            })
+            console.log(6)
+        })
+        //编辑文章
+        <!--$(".edit").click(function () {-->
+            <!--var username = '{{ request.user.username }}';-->
+            <!--var article_id = $(this).attr('article_pk');-->
+            <!--$.ajax({-->
+                <!--url: '/article_edit/',-->
+                <!--type: 'post',-->
+                <!--data: {-->
+                    <!--'csrfmiddlewaretoken': $("[name='csrfmiddlewaretoken']").val(),-->
+                    <!--'article_id': article_id,-->
+                    <!--'username': username-->
+                <!--},-->
+                <!--success: function (data) {-->
+                    <!--location.href='/'+article_id+'/article_edit/'-->
+                <!--}-->
+            <!--})-->
+        <!--})-->
+    </script>
+{% endblock %}

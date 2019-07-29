@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.1.min.js"></script>
+    <style>
+        img{
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h3>注册页面</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-offset-3">
+            <form id="form">
+                {% csrf_token %}
+                {% for item in form %}
+                    <div class="form-group">
+                        <label for="{{ item.auto_id }}">{{ item.label }}</label>   {# for与id保持一致 #}
+                        {{ item }} <span class="pull-right error"></span>
+                    </div>
+                {% endfor %}
+                    <div class="form-group">
+                        <label for="head">头像</label>
+                        <label for="head" style="margin-left: 30px"><img id="n_head" src="/static/img/default.jpg" alt=""></label>
+                        <input type="file" id="head" class="form-control" style="display: none">
+                    </div>
+
+                <input type="button" id="reg" class="btn btn-default login_btn" value="注册">
+                <span class="error" ></span>
+                <a href="/login/" id="login" class="btn btn-success pull-right">登录</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+$(function () {
+    //显示用户选中的头像
+    $('#head').change(function () {
+        //获取用户选中的头像
+        var file_obj = $(this)[0].files[0];
+        //获取选中对象的路径
+        var reader = new FileReader()
+        reader.readAsDataURL(file_obj)
+        reader.onload = function () {     //读取完毕后再改变地址：异步执行，读取时间较长
+            //改变img的src
+            $('#n_head').attr('src', reader.result)
+        }
+    });
+    //提交数据
+    $('#reg').click(function () {
+        var form_data = new FormData();
+        var request_form = $('#form').serializeArray();  //循环添加值
+        $.each(request_form, function (index, data) {
+            form_data.append(data.name, data.value)
+        });
+        form_data.append('avatar', $('#head')[0].files[0]);   //文件需另行添加
+        $.ajax({
+            url:'',
+            type:'post',
+            contentType:false,
+            processData:false,      //有文件传过去，需多写两参数
+            data:form_data,
+            success:function (data) {
+                console.log(data);
+                if(data.user){
+                    //注册成功，转去登录页面
+                    location.href = '/login/'
+                }
+                else{
+                    //给输入框改回无色、清空之前的错误信息
+                    $('.form-group').removeClass('has-error')
+                    $('span.error').html("");
+                    //展示此次错误信息
+                    $.each(data.msg, function (name, error) {
+                        if (name == '__all__'){     //全局错误，此处是判断两次密码是否一致
+                            $('#id_e_pwd').next().html(error[0]).css('color','red').parent().addClass('has-error')
+                        }
+                        $('#id_'+name).next().html(error[0]).css('color','red')
+                        //给边框改成红色
+                        $('#id_'+name).parent().addClass('has-error')
+                    })
+                }
+
+            }
+        })
+    })
+})
+</script>
+</body>
+</html>

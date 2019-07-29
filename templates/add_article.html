@@ -1,0 +1,62 @@
+{% extends 'bakend_base.html' %}
+{% block content %}
+    <form>
+        {% csrf_token %}
+       <div class="add_article">
+         <div class="alert-success text-center">添加文章</div>
+         <div class="add_article_region">
+              <div class="title form-group">
+                 <label for="title">标题</label>
+                 <div>
+                     <input type="text" name="title" id="title">
+                 </div>
+             </div>
+             <div class="content form-group">
+                 <label for="article_content">内容(Kindeditor编辑器，不支持拖放/粘贴上传图片) </label>
+                 <div>
+                     <textarea name="content" id="article_content" cols="30" rows="10"></textarea>
+                 </div>
+             </div>
+             <input type="button" class="btn btn-default" id="add_article" value="提交">
+         </div>
+        </div>
+    </form>
+{#   <script src="/static/js/jquery-3.2.1.min.js"></script>#}
+    {# 引入编辑器 #}
+   <script charset="utf-8" src="/static/blog/kindeditor/kindeditor-all.js"></script>
+    <script>
+        //添加编辑器
+        KindEditor.ready(function(K) {
+                    window.editor = K.create('#article_content',{
+                        width:"800",
+                        height:"600",
+                        resizeType:0,   {# 输入框的尺寸是否可以拖动 #}
+                        uploadJson:"/upload/",  {# 文件上传路由 #}
+                        extraFileUploadParams:{     {# 文件上传需要添加的参数 #}
+                            csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+                        },
+                        filePostName:"upload_img"   {# 上传文件指定的键 #}
+                    });
+            });
+        //提交文章
+        $('#add_article').click(function () {
+            var title = $('#title').val();
+            var content = $('#article_content').text();
+            console.log(content);
+            $.ajax({
+                url:'',
+                type:'post',
+                data:{
+                    'csrfmiddlewaretoken':$("[name='csrfmiddlewaretoken']").val(),
+                    'title':title,
+                    'content':content
+                },
+                success:function (data) {
+                    location.href = '/{{ request.user.username }}/backend/'
+                }
+            })
+        })
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cnblog 首页</title>
+    <link rel="stylesheet" href="/static/blog/bs/css/bootstrap.css">
+    {# 引入css配件 #}
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/blog/bs/js/bootstrap.min.js"></script>
+    <style>
+        #user_img {
+            font-size: 18px;
+            margin-right: 10px;
+            vertical-align: -3px;
+        }
+        .pub_info{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/index/">博客园</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">随笔 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">新闻</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <li><a href="/{{ request.user.username }}/backend/"><span id="user_img"
+                                          class="glyphicon glyphicon-user"></span>{{ request.user.username }}</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">用户设置 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">修改密码</a></li>
+                            <li><a href="#">修改头像</a></li>
+                            <li><a href="/logout/">注销</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="/login/">登录</a></li>
+                    <li><a href="/register/">注册</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">路飞学城</div>
+                <div class="panel-body">
+                    Python全栈开发
+                </div>
+                <div class="panel-body">
+                    GO语言学习
+                </div>
+                <div class="panel-body">
+                    数据分析与应用
+                </div>
+            </div>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">老男孩教育</h3>
+                </div>
+                <div class="panel-body">
+                    高级运维开发
+                </div>
+                <div class="panel-body">
+                    Django框架开发
+                </div>
+                <div class="panel-body">
+                    Flask开发
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="articles">
+                {% for article in articles %}
+                    <div class="article">
+                        <h5><a href="/{{ request.user.username }}/article/{{ article.pk }}">{{ article.title }}</a></h5>
+                        <div class="article_desc">
+                            <span class="media-left">
+                                <a href=""><img width="56" height="56" src="/media/{{ article.user.avatar }}/"></a>
+                            </span>
+                            <span class="media-right">
+                                {{ article.desc }}
+                            </span>
+                        </div>
+                        <div class="small pub_info">
+                            <span>
+                                <a href="/{{ article.user.username }}/">&nbsp;{{ article.user.username }}</a>
+                            </span>&nbsp;&nbsp;
+                            <span>
+                                发布于&nbsp;&nbsp;&nbsp;{{ article.create_time|date:'Y-m-d H:i' }}
+                            </span>&nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-comment">评论{{ article.comment_count }}</span>&nbsp;&nbsp;
+                            <span class="glyphicon glyphicon-thumbs-up">点赞{{ article.up_count }}</span>
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">阿里招聘</h3>
+                </div>
+                <div class="panel-body">
+                    人工智能
+                </div>
+                <div class="panel-body">
+                    机器学习
+                </div>
+                <div class="panel-body">
+                    语音识别
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">腾讯实习</h3>
+                </div>
+                <div class="panel-body">
+                    微信后台管理
+                </div>
+                <div class="panel-body">
+                    QQ广告推广
+                </div>
+                <div class="panel-body">
+                    体育板块新闻监督
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

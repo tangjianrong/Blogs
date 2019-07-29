@@ -1,0 +1,29 @@
+<div>
+    <div class="panel panel-default">
+                <div class="panel-heading">我的标签</div>
+                <div class="panel-body">
+                    {% for t_article in t_articles %}
+                        <p><a href="/{{ username }}/tag/{{ t_article.title }}">{{ t_article.title }}</a>({{ t_article.c }})</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">随笔分类</div>
+        <div class="panel-body">
+            {% for c_article in c_articles %}
+                <p><a href="/{{ username }}/category/{{ c_article.title }}">{{ c_article.title }}</a>({{ c_article.c }})</p>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">随笔归档</div>
+        <div class="panel-body">
+                    {% for c_t_article in c_t_articles %}
+                        <p><a href="/{{ username }}/archive/{{ c_t_article.c_date }}">{{ c_t_article.c_date }}</a>({{ c_t_article.c }})</p>
+                    {% endfor %}
+
+                </div>
+    </div>
+</div>
